@@ -1,0 +1,51 @@
+{
+  "cleanupPeriodDays": 365,
+  "env": {
+    "DISABLE_ERROR_REPORTING": "1",
+    "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "75"
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "permissions": {
+    "defaultMode": "bypassPermissions"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/block-dangerous.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "t=$(ps -o tty= -p $PPID | tr -d ' '); [ -n \"$t\" ] && [ \"$t\" != \"?\" ] && printf '\\a' > \"/dev/$t\" 2>/dev/null"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y ccstatusline@latest",
+    "padding": 0
+  },
+  "enabledPlugins": {
+    "discord@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "clangd-lsp@claude-plugins-official": true
+  },
+  "effortLevel": "high",
+  "skipDangerousModePermissionPrompt": true,
+  "voiceEnabled": true
+}
