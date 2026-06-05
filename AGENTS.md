@@ -1,14 +1,18 @@
 # Agent notes
 
-This repo is Chase's dotfiles source-of-truth. The live config locations on this machine are **symlinks pointing into this repo** — editing a file here is editing the live config, and vice versa.
+This repo is Chase's dotfiles source-of-truth. Prefer editing files in this repo, then syncing or symlinking the live config paths.
+
+On CachyOS/Linux, use the default files. On macOS, use the `*.macos.*` files and `scripts/sync-macos.sh`.
 
 ## Symlink map
 
 | Live path                              | Repo path                  |
 | -------------------------------------- | -------------------------- |
-| `~/.config/fish/config.fish`           | `fish/config.fish`         |
-| `~/.config/kitty/kitty.conf`           | `kitty/kitty.conf`         |
-| `~/.tmux.conf` (note: `$HOME`, not `~/.config/tmux/`) | `tmux/tmux.conf` |
+| `~/.config/fish/config.fish`           | `fish/config.fish` on Linux, `fish/config.macos.fish` on macOS |
+| `~/.config/fish/conf.d/done.fish`      | `fish/conf.d/done.fish` on macOS |
+| `~/.config/kitty/kitty.conf`           | `kitty/kitty.conf` on Linux, `kitty/kitty.macos.conf` on macOS |
+| `~/.tmux.conf` (note: `$HOME`, not `~/.config/tmux/`) | `tmux/tmux.conf` on Linux, `tmux/tmux.macos.conf` on macOS |
+| `~/.config/starship.toml`              | `starship/starship.toml` on macOS |
 | `~/.claude/settings.json`              | `claude/settings.json`     |
 | `~/.claude/hooks/block-dangerous.sh`   | `claude/hooks/block-dangerous.sh` |
 | `~/.claude/hooks/notify-done.sh`       | `claude/hooks/notify-done.sh` |
@@ -17,6 +21,7 @@ This repo is Chase's dotfiles source-of-truth. The live config locations on this
 
 - **Do not** `rm` a live config path and re-create it as a regular file — that severs the symlink. Write through it (Edit/Write/`>` all follow symlinks correctly).
 - When adding a new config to track: move the file into this repo, then `ln -s <abs-repo-path> <live-path>`.
+- For macOS setup, prefer running `./scripts/sync-macos.sh` from the repo root instead of hand-copying files.
 - After editing, commit + push from `~/linux_configs` like any normal repo.
 
 ## Bell-notification chain

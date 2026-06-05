@@ -1,0 +1,65 @@
+format = """
+$directory\
+$git_branch\
+$git_status\
+$cmd_duration\
+$line_break\
+$character"""
+
+right_format = "$time"
+add_newline = false
+palette = "cosmic"
+
+[palettes.cosmic]
+bg = "#101010"
+fg = "#C4C4C4"
+cyan = "#49BAC8"
+blue = "#6296BE"
+green = "#7CB987"
+yellow = "#DDC74C"
+red = "#F16161"
+purple = "#BE6DEE"
+dim = "#8E8E8E"
+
+[directory]
+style = "cyan bold"
+truncation_length = 4
+truncate_to_repo = false
+read_only = " ro"
+read_only_style = "red"
+
+[git_branch]
+format = " [$symbol$branch]($style)"
+symbol = "git:"
+style = "purple"
+
+[git_status]
+format = "([$all_status$ahead_behind]($style))"
+style = "yellow"
+conflicted = "="
+ahead = ">"
+behind = "<"
+diverged = "<>"
+up_to_date = ""
+untracked = "?"
+stashed = "$"
+modified = "!"
+staged = "+"
+renamed = "r"
+deleted = "x"
+
+[cmd_duration]
+format = " [$duration]($style)"
+style = "dim"
+min_time = 1000
+
+[character]
+success_symbol = "[>](green bold)"
+error_symbol = "[>](red bold)"
+vimcmd_symbol = "[<](green bold)"
+
+[time]
+disabled = false
+format = "[$time]($style)"
+style = "dim"
+time_format = "%I:%M %p"
