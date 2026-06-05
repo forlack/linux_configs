@@ -43,6 +43,14 @@ The script installs:
 - JetBrains Mono font
 - tmux plugin manager and configured tmux plugins
 
+It applies these macOS defaults:
+
+- disable press-and-hold accents so keys repeat normally
+- faster key repeat and shorter repeat delay
+- Finder shows hidden files
+- Finder shows the path bar
+- Finder defaults to list view
+
 It links:
 
 | Live path | Repo path |
@@ -61,3 +69,16 @@ chsh -s '/opt/homebrew/bin/fish'
 ```
 
 Use the printed Homebrew path if it differs from `/opt/homebrew/bin/fish`.
+
+To enable Touch ID for `sudo`, run:
+
+```bash
+sudo cp /etc/pam.d/sudo_local.template /etc/pam.d/sudo_local
+sudo sed -i '' 's/^#auth/auth/' /etc/pam.d/sudo_local
+```
+
+To apply only the macOS defaults later:
+
+```bash
+./scripts/macos-defaults.sh
+```

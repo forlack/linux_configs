@@ -30,6 +30,10 @@ fi
 
 "$HOME/.tmux/plugins/tpm/bin/install_plugins" || true
 
+"$repo_dir/scripts/macos-defaults.sh"
+
+git lfs install
+
 fish_path="$(brew --prefix)/bin/fish"
 if ! grep -qx "$fish_path" /etc/shells; then
   echo "Add fish to /etc/shells with:"
@@ -40,5 +44,9 @@ if [[ "${SHELL:-}" != "$fish_path" ]]; then
   echo "Set fish as your login shell with:"
   echo "  chsh -s '$fish_path'"
 fi
+
+echo "Optional: enable Touch ID for sudo with:"
+echo "  sudo cp /etc/pam.d/sudo_local.template /etc/pam.d/sudo_local"
+echo "  sudo sed -i '' 's/^#auth/auth/' /etc/pam.d/sudo_local"
 
 echo "macOS configs synced from $repo_dir"

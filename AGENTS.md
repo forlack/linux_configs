@@ -2,7 +2,7 @@
 
 This repo is Chase's dotfiles source-of-truth. Prefer editing files in this repo, then syncing or symlinking the live config paths.
 
-On CachyOS/Linux, use the default files. On macOS, use the `*.macos.*` files and `scripts/sync-macos.sh`.
+On CachyOS/Linux, use the default files. On macOS, use the `*.macos.*` files and `scripts/sync-macos.sh`. macOS UI/defaults live in `scripts/macos-defaults.sh`.
 
 ## Symlink map
 
@@ -22,6 +22,7 @@ On CachyOS/Linux, use the default files. On macOS, use the `*.macos.*` files and
 - **Do not** `rm` a live config path and re-create it as a regular file — that severs the symlink. Write through it (Edit/Write/`>` all follow symlinks correctly).
 - When adding a new config to track: move the file into this repo, then `ln -s <abs-repo-path> <live-path>`.
 - For macOS setup, prefer running `./scripts/sync-macos.sh` from the repo root instead of hand-copying files.
+- Keep privileged macOS steps, such as Touch ID sudo and `chsh`, documented instead of forcing them in scripts.
 - After editing, commit + push from `~/linux_configs` like any normal repo.
 
 ## Bell-notification chain
