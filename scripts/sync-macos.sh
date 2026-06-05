@@ -13,7 +13,7 @@ if ! command -v brew >/dev/null 2>&1; then
   exit 1
 fi
 
-brew install fish tmux eza bat zoxide starship fastfetch dockutil gh
+brew install fish tmux eza bat zoxide starship fastfetch dockutil gh git-lfs lazygit direnv
 brew install --cask kitty font-jetbrains-mono
 
 mkdir -p "$HOME/.config/fish/conf.d" "$HOME/.config/kitty" "$HOME/.config" "$HOME/.tmux/plugins"

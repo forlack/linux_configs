@@ -39,6 +39,7 @@ The script installs:
 
 - `fish`, `tmux`, `kitty`
 - `eza`, `bat`, `zoxide`, `starship`, `fastfetch`, `gh`
+- `git-lfs`, `lazygit`, `direnv`
 - JetBrains Mono font
 - tmux plugin manager and configured tmux plugins
 
