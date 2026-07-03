@@ -1,0 +1,45 @@
+model = "gpt-5.5"
+model_reasoning_effort = "high"
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+approvals_reviewer = "user"
+[projects."/home/chase/logicgates"]
+trust_level = "trusted"
+
+[projects."/home/chase/Programming"]
+trust_level = "trusted"
+
+[projects."/home/chase"]
+trust_level = "trusted"
+
+[projects."/home/chase/Programming/riscv"]
+trust_level = "trusted"
+
+[projects."/home/chase/Programming/Alarm-riscv"]
+trust_level = "trusted"
+
+[projects."/home/chase/Programming/hifi"]
+trust_level = "trusted"
+
+[notice]
+hide_full_access_warning = true
+
+[notice.model_migrations]
+"gpt-5.3-codex" = "gpt-5.4"
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+
+[plugins."gmail@openai-curated"]
+enabled = true
+
+[[hooks.Stop]]
+[[hooks.Stop.hooks]]
+type = "command"
+command = "bash /home/chase/.codex/hooks/bell.sh"
+timeout = 5
+
+[hooks.state]
+
+[hooks.state."/home/chase/.codex/config.toml:stop:0:0"]
+trusted_hash = "sha256:802c41fc450bf3ad00235e88e8eb5cddade83243cce1d598ad0bb35ac3cda225"

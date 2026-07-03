@@ -16,6 +16,8 @@ On CachyOS/Linux, use the default files. On macOS, use the `*.macos.*` files and
 | `~/.claude/settings.json`              | `claude/settings.json`     |
 | `~/.claude/hooks/block-dangerous.sh`   | `claude/hooks/block-dangerous.sh` |
 | `~/.claude/hooks/notify-done.sh`       | `claude/hooks/notify-done.sh` |
+| `~/.codex/config.toml`                 | `codex/config.toml`        |
+| `~/.codex/hooks/bell.sh`               | `codex/hooks/bell.sh`      |
 
 ## Rules
 
@@ -32,3 +34,5 @@ On CachyOS/Linux, use the default files. On macOS, use the `*.macos.*` files and
 1. **Claude Stop hook** → writes `\a` to `/dev/<tty>`.
 2. **kitty** has `enable_audio_bell no` → visual bell only, no sound.
 3. **tmux** has bell-on-activity → window gets flagged so you notice across panes.
+
+Codex has the same chain via its own Stop hook: `codex/hooks/bell.sh`, wired up in `codex/config.toml` under `[[hooks.Stop]]`. Same tty-bell logic as Claude's, kept as a separate script/config so editing one tool's hook never touches the other's.
