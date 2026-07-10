@@ -24,7 +24,8 @@ sel=$(
   fzf --ansi --delimiter='\t' \
       --with-nth='2' \
       --preview "python3 '$DIR/preview.py' {3} {7}" \
-      --preview-window='right:50%:wrap:border-left' \
+      --preview-window='right:50%:wrap-word:border-left' \
+      --preview-wrap-sign='' \
       --header 'enter: resume  ·  ctrl-f: search chat text  ·  ctrl-t: titles  ·  esc: cancel' \
       --prompt 'session ❯ ' \
       --color='fg:#C4C4C4,bg:#1B1B1B,hl:#49BAC8,fg+:#FFFFFF,bg+:#101010,hl+:#49BAC8,border:#49BAC8,header:#6296BE,prompt:#49BAC8,pointer:#49BAC8' \
