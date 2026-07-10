@@ -32,13 +32,13 @@ usage_col=""
 if [ -n "$five" ] || [ -n "$week" ]; then
   usage_col="Usg: "
   if [ -n "$five" ]; then
-    usage_col="${usage_col}$(printf '%.0f' "$five")"
+    usage_col="${usage_col}$(printf '%.0f%%' "$five")"
   else
     usage_col="${usage_col}--"
   fi
   usage_col="${usage_col}/"
   if [ -n "$week" ]; then
-    usage_col="${usage_col}$(printf '%.0f' "$week")"
+    usage_col="${usage_col}$(printf '%.0f%%' "$week")"
   else
     usage_col="${usage_col}--"
   fi
@@ -69,12 +69,12 @@ fi
 
 sep=" | "
 out="${CYAN}${model_col}${RESET}"
-if [ -n "$dir_col" ]; then
-  out="${out}${DIM_BLACK}${sep}${RESET}${BLUE}${dir_col}${RESET}"
-fi
 out="${out}${DIM_BLACK}${sep}${RESET}${DIM_BLACK}${ctx_col}${RESET}"
 if [ -n "$usage_col" ]; then
   out="${out}${DIM_BLACK}${sep}${RESET}${GREEN}${usage_col}${RESET}"
+fi
+if [ -n "$dir_col" ]; then
+  out="${out}${DIM_BLACK}${sep}${RESET}${BLUE}${dir_col}${RESET}"
 fi
 if [ -n "$branch" ]; then
   out="${out}${DIM_BLACK}${sep}${RESET}${MAGENTA}${branch}${RESET}"
