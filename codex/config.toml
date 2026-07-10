@@ -1,5 +1,5 @@
 model = "gpt-5.5"
-model_reasoning_effort = "high"
+model_reasoning_effort = "medium"
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
 approvals_reviewer = "user"
@@ -27,6 +27,10 @@ hide_full_access_warning = true
 [notice.model_migrations]
 "gpt-5.3-codex" = "gpt-5.4"
 
+[tui]
+status_line = ["model-with-reasoning", "current-dir", "git-branch", "context-remaining", "five-hour-limit", "weekly-limit", "permissions"]
+status_line_use_colors = true
+
 [tui.model_availability_nux]
 "gpt-5.5" = 4
 
@@ -43,3 +47,6 @@ timeout = 5
 
 [hooks.state."/home/chase/.codex/config.toml:stop:0:0"]
 trusted_hash = "sha256:802c41fc450bf3ad00235e88e8eb5cddade83243cce1d598ad0bb35ac3cda225"
+
+[features]
+hooks = true

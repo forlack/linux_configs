@@ -12,6 +12,7 @@
   "permissions": {
     "defaultMode": "bypassPermissions"
   },
+  "model": "opus",
   "hooks": {
     "PreToolUse": [
       {
@@ -20,6 +21,14 @@
           {
             "type": "command",
             "command": "bash ~/.claude/hooks/block-dangerous.sh"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/usr/bin/node\" \"/home/chase/.local/lib/node_modules/clideck/bin/claude-hook.js\" 4000 menu"
           }
         ]
       }
@@ -32,12 +41,83 @@
             "command": "t=$(ps -o tty= -p $PPID | tr -d ' '); [ -n \"$t\" ] && [ \"$t\" != \"?\" ] && printf '\\a' > \"/dev/$t\" 2>/dev/null"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/usr/bin/node\" \"/home/chase/.local/lib/node_modules/clideck/bin/claude-hook.js\" 4000 stop"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/usr/bin/node\" \"/home/chase/.local/lib/node_modules/clideck/bin/claude-hook.js\" 4000 start"
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/usr/bin/node\" \"/home/chase/.local/lib/node_modules/clideck/bin/claude-hook.js\" 4000 stop"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/usr/bin/node\" \"/home/chase/.local/lib/node_modules/clideck/bin/claude-hook.js\" 4000 idle"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "gh-axi",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "lavish-axi",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "chrome-devtools-axi",
+            "timeout": 10
+          }
+        ]
       }
     ]
   },
   "statusLine": {
     "type": "command",
-    "command": "npx -y ccstatusline@latest",
+    "command": "bash ~/.claude/statusline-command.sh",
     "padding": 0
   },
   "enabledPlugins": {
@@ -45,7 +125,8 @@
     "frontend-design@claude-plugins-official": true,
     "clangd-lsp@claude-plugins-official": true
   },
-  "effortLevel": "high",
+  "effortLevel": "medium",
+  "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
   "voiceEnabled": true
 }
