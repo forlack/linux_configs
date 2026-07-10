@@ -24,13 +24,15 @@ sel=$(
   fzf --ansi --delimiter='\t' \
       --with-nth='2' \
       --preview "python3 '$DIR/preview.py' {3} {7}" \
-      --preview-window='right:50%:wrap-word:border-left' \
+      --preview-window='right:50%:wrap-word:border-left:follow' \
       --preview-wrap-sign='' \
-      --header 'enter: resume  ·  ctrl-f: search chat text  ·  ctrl-t: titles  ·  esc: cancel' \
+      --header 'enter: resume · ctrl-f: search text · ctrl-t: titles · ctrl-u/ctrl-d: scroll · esc: cancel' \
       --prompt 'session ❯ ' \
       --color='fg:#C4C4C4,bg:#1B1B1B,hl:#49BAC8,fg+:#FFFFFF,bg+:#101010,hl+:#49BAC8,border:#49BAC8,header:#6296BE,prompt:#49BAC8,pointer:#49BAC8' \
       --no-border \
       --bind "start:unbind(change)" \
+      --bind "ctrl-u:preview-half-page-up" \
+      --bind "ctrl-d:preview-half-page-down" \
       --bind "change:reload(bash '$SEARCH' {q})" \
       --bind "ctrl-f:disable-search+change-prompt(content ❯ )+rebind(change)+reload(bash '$SEARCH' {q})" \
       --bind "ctrl-t:enable-search+change-prompt(session ❯ )+unbind(change)+reload(cat '$CACHE')" \

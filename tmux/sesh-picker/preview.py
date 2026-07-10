@@ -28,55 +28,6 @@ CODE_C = "\033[38;2;209;154;102m"    # amber #D19A66  — code spans/blocks
 NOBOLD = "\033[22m"                  # turn bold off, keep the current color
 
 
-ANSI_RE = re.compile(r"\033\[[0-9;]*m")
-
-
-def visible_width(s):
-    """Approx printed width: strip ANSI; count emoji/wide glyphs as 2 cells."""
-    s = ANSI_RE.sub("", s)
-    w = 0
-    for ch in s:
-        w += 2 if ord(ch) >= 0x1100 and _is_wide(ch) else 1
-    return w
-
-
-def _is_wide(ch):
-    o = ord(ch)
-    return (
-        0x1100 <= o <= 0x115F      # Hangul Jamo
-        or 0x2E80 <= o <= 0xA4CF   # CJK
-        or 0xAC00 <= o <= 0xD7A3   # Hangul syllables
-        or 0xF900 <= o <= 0xFAFF   # CJK compat
-        or 0xFE30 <= o <= 0xFE4F
-        or 0xFF00 <= o <= 0xFF60   # fullwidth
-        or 0x1F000 <= o <= 0x1FAFF  # emoji/symbols
-        or 0x2600 <= o <= 0x27BF   # misc symbols/dingbats
-    )
-
-
-def fit_to_pane(lines):
-    """Keep only the last lines that fit the fzf preview pane, so the newest
-    content sits at the bottom. fzf sets these env vars for preview commands.
-    """
-    try:
-        rows = int(os.environ.get("FZF_PREVIEW_LINES", "0"))
-        cols = int(os.environ.get("FZF_PREVIEW_COLUMNS", "0"))
-    except ValueError:
-        rows = cols = 0
-    if rows <= 0:
-        return lines            # not running under fzf — emit everything
-    cols = cols if cols > 0 else 80
-    kept, used = [], 0
-    for ln in reversed(lines):
-        wrapped = max(1, -(-visible_width(ln) // cols))  # ceil division
-        if used + wrapped > rows and kept:
-            break
-        kept.append(ln)
-        used += wrapped
-    kept.reverse()
-    return kept
-
-
 def markdownish(text, base):
     """Light markdown -> ANSI, layered on the turn's base color.
 
@@ -224,10 +175,10 @@ def main():
         lines.append("")
     lines.append(f"{BOLD}{BANNER_C}╺╸ ▲ most recent — end of chat ╺╸{RESET}")
 
-    # Trim to the last screenful so fzf (which anchors previews to the top)
-    # shows the newest turn at the bottom of the pane with no scrolling.
+    # Emit the full transcript. pick.sh uses the preview-window `follow` flag to
+    # auto-scroll to the bottom (newest), while keeping older turns scrollable.
     try:
-        sys.stdout.write("\n".join(fit_to_pane(lines)) + "\n")
+        sys.stdout.write("\n".join(lines) + "\n")
     except BrokenPipeError:
         pass
 
