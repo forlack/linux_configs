@@ -8,6 +8,7 @@ GREEN='\033[32m'
 MAGENTA='\033[35m'
 YELLOW='\033[33m'
 BLUE='\033[34m'
+LIGHT_GRAY='\033[38;5;250m'
 RESET='\033[0m'
 
 model=$(echo "$input" | jq -r '.model.display_name // "unknown"')
@@ -69,7 +70,7 @@ fi
 
 sep=" | "
 out="${CYAN}${model_col}${RESET}"
-out="${out}${DIM_BLACK}${sep}${RESET}${DIM_BLACK}${ctx_col}${RESET}"
+out="${out}${DIM_BLACK}${sep}${RESET}${LIGHT_GRAY}${ctx_col}${RESET}"
 if [ -n "$usage_col" ]; then
   out="${out}${DIM_BLACK}${sep}${RESET}${GREEN}${usage_col}${RESET}"
 fi
