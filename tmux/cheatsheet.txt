@@ -1,0 +1,45 @@
+TMUX CHEATSHEET
+================
+
+Prefix key: Ctrl+Space
+
+CUSTOM BINDINGS (prefix + key, unless noted)
+  r          Reload tmux config
+  Tab        Jump to last active window
+  h          Show this help popup
+  /          Session picker: fzf all Claude + Codex chats, enter resumes in new window
+  f          Toggle floating scratchpad popup (named session "popup")
+  b          Open btop in a popup
+  e          Open yazi (file manager) in a popup
+  w          Fuzzy-find & switch to any window (fzf popup)
+  c          New window (opens in $HOME)
+  \          Split pane horizontally (stays in current path)
+  -          Split pane vertically (stays in current path)
+  Middle-click on a window tab   Rename that window
+
+UNPREFIXED (no Ctrl+Space needed)
+  Alt+j      Previous window
+  Alt+k      Next window
+  Mouse      Click to select pane/window, drag to resize, scroll to scroll/copy-mode
+
+DEFAULT TMUX BINDINGS STILL ACTIVE (prefix + key)
+  d          Detach from session
+  x          Kill current pane (with confirm)
+  z          Zoom/unzoom current pane
+  o          Cycle to next pane
+  ;          Toggle to last active pane
+  q          Show pane numbers briefly
+  {  }       Swap current pane with previous/next
+  !          Break pane into its own window
+  ,          Rename current window
+  &          Kill current window (with confirm)
+  s          Choose session (tree view)
+  n  / p     Next / previous window
+  0-9        Switch to window by number
+  [          Enter copy mode
+  ]          Paste most recent buffer
+  :          Command prompt
+  ?          List every keybinding (tmux's own full reference)
+  Arrow keys Resize current pane (hold prefix, tap repeatedly)
+
+NOTE: % and " (default split bindings) are unbound in this config — use \ and - instead.
