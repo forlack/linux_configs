@@ -3,18 +3,31 @@
 # running, keyed by pane coordinates, so the restore hook can reopen the right
 # session per pane — even when several run in the same directory (e.g. ~).
 #
+# The map is named after the save file it belongs to (sessions-<stamp>.tsv), so
+# restoring an OLD snapshot never picks up a newer snapshot's mapping.
+#
 # Codex holds its rollout .jsonl open, so we read the exact session id from
 # /proc/<pid>/fd. Claude keeps nothing open and exposes no session env var, so
 # it's recorded with an empty id and the restore hook falls back to --continue.
 set -u
 
-MAP="${XDG_DATA_HOME:-$HOME/.local/share}/tmux/resurrect/claude-codex-sessions.tsv"
-mkdir -p "$(dirname "$MAP")"
-tmpfile="$(mktemp)"
-
+RDIR="${XDG_DATA_HOME:-$HOME/.local/share}/tmux/resurrect"
 UUID_RE='[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
 
-# All pids in a pane's process tree (shell -> node -> codex binary, etc.).
+# Path of the map that pairs with the current "last" save file.
+map_path() {
+  local base stamp
+  base="$(basename "$(readlink "$RDIR/last" 2>/dev/null)" 2>/dev/null)"
+  [ -z "$base" ] && base="$(basename "$(ls -t "$RDIR"/tmux_resurrect_*.txt 2>/dev/null | head -1)" 2>/dev/null)"
+  [ -z "$base" ] && return 1
+  stamp="${base#tmux_resurrect_}"; stamp="${stamp%.txt}"
+  echo "$RDIR/sessions-${stamp}.tsv"
+}
+
+MAP="$(map_path)" || exit 0
+mkdir -p "$RDIR"
+tmpfile="$(mktemp)"
+
 descendants() {
   local pid="$1" child
   echo "$pid"
@@ -49,7 +62,6 @@ while IFS=$'\t' read -r s w p pid cmd; do
   if res="$(open_session $pids)"; then
     tool="${res%%$'\t'*}"; id="${res#*$'\t'}"
   else
-    # No open session file: detect claude/codex by command; leave id empty.
     tool=""; id=""
     case "$cmd" in
       claude) tool="claude" ;;
@@ -63,3 +75,10 @@ while IFS=$'\t' read -r s w p pid cmd; do
 done
 
 mv "$tmpfile" "$MAP"
+
+# Prune old maps that no longer have a matching save file.
+for m in "$RDIR"/sessions-*.tsv; do
+  [ -e "$m" ] || continue
+  st="$(basename "$m" .tsv)"; st="${st#sessions-}"
+  [ -e "$RDIR/tmux_resurrect_${st}.txt" ] || rm -f "$m"
+done
