@@ -47,6 +47,12 @@ enabled = true
 [plugins."google-drive@openai-curated"]
 enabled = true
 
+[[hooks.UserPromptSubmit]]
+[[hooks.UserPromptSubmit.hooks]]
+type = "command"
+command = "bash /home/chase/linux_configs/tmux/agent-state.sh working"
+timeout = 5
+
 [[hooks.Stop]]
 [[hooks.Stop.hooks]]
 type = "command"
@@ -57,6 +63,9 @@ timeout = 5
 
 [hooks.state."/home/chase/.codex/config.toml:stop:0:0"]
 trusted_hash = "sha256:802c41fc450bf3ad00235e88e8eb5cddade83243cce1d598ad0bb35ac3cda225"
+
+[hooks.state."/home/chase/.codex/config.toml:user_prompt_submit:0:0"]
+trusted_hash = "sha256:0a7ec681d7bbe96f21e0292e5875589f542b2a5f98d3a3f147ea51b65e172d88"
 
 [features]
 hooks = true

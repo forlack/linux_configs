@@ -38,6 +38,14 @@
         "hooks": [
           {
             "type": "command",
+            "command": "bash /home/chase/linux_configs/tmux/agent-state.sh done"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
             "command": "t=$(ps -o tty= -p $PPID | tr -d ' '); [ -n \"$t\" ] && [ \"$t\" != \"?\" ] && printf '\\a' > \"/dev/$t\" 2>/dev/null"
           }
         ]
@@ -56,12 +64,28 @@
         "hooks": [
           {
             "type": "command",
+            "command": "bash /home/chase/linux_configs/tmux/agent-state.sh working"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
             "command": "\"/usr/bin/node\" \"/home/chase/.local/lib/node_modules/clideck/bin/claude-hook.js\" 4000 start"
           }
         ]
       }
     ],
     "StopFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /home/chase/linux_configs/tmux/agent-state.sh done"
+          }
+        ]
+      },
       {
         "hooks": [
           {
