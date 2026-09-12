@@ -94,11 +94,14 @@ With the Ctrl+Space prefix: `f` toggles the scratchpad, `b` opens btop,
 Claude/Codex session picker. Alt+j/Alt+k select the previous/next window.
 Dependencies: `brew install btop yazi fzf ripgrep python`.
 
-For Codex working/done tab indicators, merge `codex/tmux-hooks.macos.toml`
-into your existing `~/.codex/config.toml`, then review/enable the hooks in
-Codex if prompted. Preserve your existing model, permissions, and project settings.
-The full Linux Codex/Claude settings contain machine-specific paths and should
-not be linked directly on macOS.
+Codex on macOS uses `codex/config.macos.toml`, linked from
+`~/.codex/config.toml` by the sync script (existing regular files are backed up).
+It tracks YOLO defaults, trusted projects, tmux working/done hooks, and the
+`[tui]` status line: model/reasoning, directory, branch, remaining context,
+five-hour/weekly limits, and permissions, with colors enabled.
+Changes made through Codex settings should be reviewed with `git diff` and committed.
+Linux continues to use `codex/config.toml`.
+The shell prompt is separately tracked in `starship/starship.toml`.
 
 Resurrection uses `lsof` on macOS and `/proc` on Linux to identify open session
 files. When no exact session ID is available, it falls back to Claude continue

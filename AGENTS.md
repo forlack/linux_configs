@@ -16,7 +16,7 @@ On CachyOS/Linux, use the default files. On macOS, use the `*.macos.*` files and
 | `~/.claude/settings.json`              | `claude/settings.json`     |
 | `~/.claude/hooks/block-dangerous.sh`   | `claude/hooks/block-dangerous.sh` |
 | `~/.claude/hooks/notify-done.sh`       | `claude/hooks/notify-done.sh` |
-| `~/.codex/config.toml`                 | `codex/config.toml`        |
+| `~/.codex/config.toml`                 | `codex/config.toml` on Linux, `codex/config.macos.toml` on macOS |
 | `~/.codex/hooks/bell.sh`               | `codex/hooks/bell.sh`      |
 
 ## Rules

@@ -1,0 +1,40 @@
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+approvals_reviewer = "user"
+[projects."/Users/chase"]
+trust_level = "trusted"
+
+[projects."/Users/chase/ftc"]
+trust_level = "trusted"
+
+[tui]
+status_line = ["model-with-reasoning", "current-dir", "git-branch", "context-remaining", "five-hour-limit", "weekly-limit", "permissions"]
+status_line_use_colors = true
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+gpt-6-astra = 3
+
+[notice]
+hide_full_access_warning = true
+
+# tmux working/done indicators
+[[hooks.UserPromptSubmit]]
+[[hooks.UserPromptSubmit.hooks]]
+type = "command"
+command = "bash ~/linux_configs/tmux/agent-state.sh working"
+timeout = 5
+
+[[hooks.Stop]]
+[[hooks.Stop.hooks]]
+type = "command"
+command = "bash ~/linux_configs/codex/hooks/bell.sh"
+timeout = 5
+
+[hooks.state]
+
+[hooks.state."/Users/chase/.codex/config.toml:user_prompt_submit:0:0"]
+trusted_hash = "sha256:a04bf41c2468fb709e55ca9de809bcaea22d7d3c7c73c5ebbd92af8742374a6f"
+
+[hooks.state."/Users/chase/.codex/config.toml:stop:0:0"]
+trusted_hash = "sha256:9ba418323736078827080646feb497e698749fad451f6f0253ee80314dbf9c58"

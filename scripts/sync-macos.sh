@@ -24,6 +24,15 @@ ln -sf "$repo_dir/kitty/kitty.macos.conf" "$HOME/.config/kitty/kitty.conf"
 ln -sf "$repo_dir/tmux/tmux.macos.conf" "$HOME/.tmux.conf"
 ln -sf "$repo_dir/starship/starship.toml" "$HOME/.config/starship.toml"
 
+# Preserve a machine's existing Codex config before linking the tracked Mac config.
+mkdir -p "$HOME/.codex/hooks"
+if [[ -e "$HOME/.codex/config.toml" && ! -L "$HOME/.codex/config.toml" ]]; then
+  cp -p "$HOME/.codex/config.toml" "$(mktemp "$HOME/.codex/config.toml.backup.XXXXXX")"
+fi
+ln -sf "$repo_dir/codex/config.macos.toml" "$HOME/.codex/config.toml"
+ln -sf "$repo_dir/codex/hooks/bell.sh" "$HOME/.codex/hooks/bell.sh"
+
+
 if [[ ! -d "$HOME/.tmux/plugins/tpm" ]]; then
   git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
 fi
