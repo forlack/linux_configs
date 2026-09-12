@@ -19,6 +19,9 @@ On CachyOS/Linux, use the default files. On macOS, use the `*.macos.*` files and
 | `~/.codex/config.toml`                 | `codex/config.toml` on Linux, `codex/config.macos.toml` on macOS |
 | `~/.codex/hooks/bell.sh`               | `codex/hooks/bell.sh`      |
 
+Firefox macOS profile `user.js` links to `firefox/user.macos.js`; find the active
+profile through `about:profiles` (profile directory names vary by machine).
+
 ## Rules
 
 - **Do not** `rm` a live config path and re-create it as a regular file — that severs the symlink. Write through it (Edit/Write/`>` all follow symlinks correctly).

@@ -109,3 +109,11 @@ or Codex resume-last. Restoration only sends commands into shell panes.
 
 On macOS Kitty, both Option+j/k and Command+j/k switch tmux windows.
 Command+k is explicitly mapped instead of Kitty's default clear-scrollback action.
+
+## Firefox on macOS
+
+`firefox/user.macos.js` makes address-bar Command+Enter open a new tab,
+while Enter uses the current tab. It disables www./.com completion for
+Command+Enter. The separate search bar retains its new-tab preference.
+Link it to `user.js` in the profile directory shown by `about:profiles`,
+after backing up any existing `user.js`. Restart Firefox to apply.
