@@ -7,11 +7,19 @@
 # restoring an OLD snapshot never picks up a newer snapshot's mapping.
 #
 # Codex holds its rollout .jsonl open, so we read the exact session id from
-# /proc/<pid>/fd. Claude keeps nothing open and exposes no session env var, so
-# it's recorded with an empty id and the restore hook falls back to --continue.
+# /proc/<pid>/fd on Linux or lsof on macOS. If no session file is open,
+# the restore hook falls back to --continue / resume --last.
 set -u
 
-RDIR="${XDG_DATA_HOME:-$HOME/.local/share}/tmux/resurrect"
+RDIR=$(tmux show-option -gqv @resurrect-dir)
+if [ -z "$RDIR" ]; then
+  if [ -d "$HOME/.tmux/resurrect" ]; then
+    RDIR="$HOME/.tmux/resurrect"
+  else
+    RDIR="${XDG_DATA_HOME:-$HOME/.local/share}/tmux/resurrect"
+  fi
+fi
+RDIR="${RDIR/#\~/$HOME}"
 UUID_RE='[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
 
 # Path of the map that pairs with the current "last" save file.
@@ -37,11 +45,21 @@ descendants() {
 }
 
 # Print "tool<TAB>id" for the first pid whose open fds point at a session file.
-open_session() {
-  local pid f tgt id
-  for pid in "$@"; do
+session_files() {
+  local pid="$1" f
+  if [ "$(uname -s)" = Darwin ]; then
+    /usr/sbin/lsof -a -p "$pid" -Fn 2>/dev/null | sed -n 's/^n//p'
+  else
     for f in /proc/"$pid"/fd/*; do
-      tgt="$(readlink "$f" 2>/dev/null)" || continue
+      readlink "$f" 2>/dev/null || true
+    done
+  fi
+}
+
+open_session() {
+  local pid tgt id
+  for pid in "$@"; do
+    while IFS= read -r tgt; do
       case "$tgt" in
         "$HOME"/.codex/sessions/*rollout-*.jsonl)
           id="$(basename "$tgt" .jsonl | grep -oE "$UUID_RE" | tail -1)"
@@ -51,7 +69,7 @@ open_session() {
           id="$(basename "$tgt" .jsonl)"
           [ -n "$id" ] && { printf 'claude\t%s\n' "$id"; return 0; } ;;
       esac
-    done
+    done < <(session_files "$pid")
   done
   return 1
 }
@@ -65,6 +83,7 @@ while IFS=$'\t' read -r s w p pid cmd; do
     tool=""; id=""
     case "$cmd" in
       claude) tool="claude" ;;
+      codex) tool="codex" ;;
       node)
         if ps -o args= -p "$(echo "$pids" | tr ' ' ',')" 2>/dev/null | grep -q '\.local/bin/codex'; then
           tool="codex"

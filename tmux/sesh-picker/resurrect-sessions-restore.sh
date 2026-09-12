@@ -11,7 +11,15 @@
 # clobber a pane resurrect restored with another program, and never double-fire.
 set -u
 
-RDIR="${XDG_DATA_HOME:-$HOME/.local/share}/tmux/resurrect"
+RDIR=$(tmux show-option -gqv @resurrect-dir)
+if [ -z "$RDIR" ]; then
+  if [ -d "$HOME/.tmux/resurrect" ]; then
+    RDIR="$HOME/.tmux/resurrect"
+  else
+    RDIR="${XDG_DATA_HOME:-$HOME/.local/share}/tmux/resurrect"
+  fi
+fi
+RDIR="${RDIR/#\~/$HOME}"
 
 # The map for the snapshot that was just restored (resurrect restores "last").
 base="$(basename "$(readlink "$RDIR/last" 2>/dev/null)" 2>/dev/null)"

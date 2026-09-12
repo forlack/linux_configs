@@ -82,3 +82,24 @@ To apply only the macOS defaults later:
 ```bash
 ./scripts/macos-defaults.sh
 ```
+
+## macOS tmux features
+
+The macOS config includes the Linux popups, tab colors, and session restoration,
+plus native `pbcopy` clipboard integration and Kitty true color support.
+After updating the repo, reload with `tmux source-file ~/.tmux.conf`.
+
+With the Ctrl+Space prefix: `f` toggles the scratchpad, `b` opens btop,
+`e` opens Yazi, `w` switches windows, `h` shows help, and `/` opens the
+Claude/Codex session picker. Alt+j/Alt+k select the previous/next window.
+Dependencies: `brew install btop yazi fzf ripgrep python`.
+
+For Codex working/done tab indicators, merge `codex/tmux-hooks.macos.toml`
+into your existing `~/.codex/config.toml`, then review/enable the hooks in
+Codex if prompted. Preserve your existing model, permissions, and project settings.
+The full Linux Codex/Claude settings contain machine-specific paths and should
+not be linked directly on macOS.
+
+Resurrection uses `lsof` on macOS and `/proc` on Linux to identify open session
+files. When no exact session ID is available, it falls back to Claude continue
+or Codex resume-last. Restoration only sends commands into shell panes.
