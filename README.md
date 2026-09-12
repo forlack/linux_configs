@@ -90,7 +90,7 @@ plus native `pbcopy` clipboard integration and Kitty true color support.
 After updating the repo, reload with `tmux source-file ~/.tmux.conf`.
 
 With the Ctrl+Space prefix: `f` toggles the scratchpad, `b` opens btop,
-`e` opens Yazi, `w` switches windows, `h` shows help, and `/` opens the
+`e` opens Yazi in a regular window (avoids a tmux popup crash), `w` switches windows, `h` shows help, and `/` opens the
 Claude/Codex session picker. Alt+j/Alt+k select the previous/next window.
 Dependencies: `brew install btop yazi fzf ripgrep python`.
 
@@ -103,3 +103,6 @@ not be linked directly on macOS.
 Resurrection uses `lsof` on macOS and `/proc` on Linux to identify open session
 files. When no exact session ID is available, it falls back to Claude continue
 or Codex resume-last. Restoration only sends commands into shell panes.
+
+On macOS Kitty, both Option+j/k and Command+j/k switch tmux windows.
+Command+k is explicitly mapped instead of Kitty's default clear-scrollback action.

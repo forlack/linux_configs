@@ -10,7 +10,7 @@ CUSTOM BINDINGS (prefix + key, unless noted)
   /          Session picker: fzf all Claude + Codex chats, enter resumes in new window
   f          Toggle floating scratchpad popup (named session "popup")
   b          Open btop in a popup
-  e          Open yazi (file manager) in a popup
+  e          Open yazi (popup on Linux; regular window on macOS)
   w          Fuzzy-find & switch to any window (fzf popup)
   c          New window (opens in $HOME)
   \          Split pane horizontally (stays in current path)
